@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// swagger:ignore
 type ResourceType string
 
 const (
@@ -11,11 +12,11 @@ const (
 	Volume    ResourceType = "volume"
 )
 
-// Tariff represents generic billing tariff for resource.
+// Tariff represents generic billing tariff for resource
 // If tariff is public it available for all users.
 // If tariff not public it available only for admins.
 //
-// swagger:model
+// swagger:ignore
 type Tariff struct {
 	ID          string    `json:"id"`
 	Label       string    `json:"label"`
@@ -28,7 +29,7 @@ type Tariff struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
-// NamespaceTariff represents billing tariff for namespace.
+// NamespaceTariff represents billing tariff for namespace
 // If VolumeSize provided non-persistent volume will be created.
 //
 // swagger:model
@@ -44,7 +45,7 @@ type NamespaceTariff struct {
 	VolumeSize       int     `json:"volume_size"`
 }
 
-// VolumeTariff represents billing tariff for (persistent) volume.
+// VolumeTariff represents billing tariff for (persistent) volume
 //
 // swagger:model
 type VolumeTariff struct {
