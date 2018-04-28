@@ -1,0 +1,95 @@
+swagger: "2.0"
+info:
+  version: "1.0"
+  title: Billing Manager API.
+  license:
+    name: Apache License, Vesion 2.0
+  description: The Billing Manager API project is used for actions with tariffs and subscriptions.
+consumes:
+  - application/json
+produces:
+  - application/json
+definitions:
+  ResourceType:
+    type: string
+    enum:
+      - namespace
+      - volume
+responses:
+  error:
+    description: cherry error
+    schema:
+      $ref: 'vendor/github.com/containerum/cherry/swagger.json#/definitions/Err'
+paths:
+  /user/subscribe:
+    post:
+      summary: Subscribe user to tariff whenever he adds a namespace or volume.
+      operationId: SubscribeTariff
+      tags:
+        - User
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SubscribeTariffRequest'
+      responses:
+        '202':
+          description: successfully subscribed
+        default:
+          $ref: '#/responses/error'
+  /user/unsubscribe:
+    post:
+      summary: Unsubscribe user from tariff whenever he deletes a namespace or volume.
+      operationId: UnsubscribeTariff
+      tags:
+        - User
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UnsubscribeTariffRequest'
+      responses:
+        '202':
+          description: successfully unsubscribed
+        default:
+          $ref: '#/responses/error'
+  /tariffs/namespace/{tariff_id}:
+    get:
+      summary: Get namespace tariff by ID.
+      operationId: GetNamespaceTariff
+      tags:
+        - Tariffs
+      parameters:
+        - name: tariff_id
+          in: path
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: namespace tariff
+          schema:
+            $ref: '#/definitions/NamespaceTariff'
+        default:
+          $ref: '#/responses/error'
+  /tariffs/volume/{tariff_id}:
+    get:
+      summary: Get volume tariff by ID.
+      operationId: GetVolumeTariff
+      tags:
+        - Tariffs
+      parameters:
+        - name: tariff_id
+          in: path
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: volume tariff
+          schema:
+            $ref: '#/definitions/VolumeTariff'
+        default:
+          $ref: '#/responses/error'
