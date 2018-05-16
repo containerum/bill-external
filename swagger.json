@@ -25,7 +25,7 @@
         "parameters": [
           {
             "type": "string",
-            "format": "uuid",
+            "description": "uuid",
             "name": "tariff_id",
             "in": "path",
             "required": true
@@ -54,7 +54,7 @@
         "parameters": [
           {
             "type": "string",
-            "format": "uuid",
+            "description": "uuid",
             "name": "tariff_id",
             "in": "path",
             "required": true
@@ -73,10 +73,10 @@
         }
       }
     },
-    "/user/subscribe": {
+    "/isp/subscription": {
       "post": {
         "tags": [
-          "User"
+          "Subscription"
         ],
         "summary": "Subscribe user to tariff whenever he adds a namespace or volume.",
         "operationId": "SubscribeTariff",
@@ -98,23 +98,79 @@
             "$ref": "#/responses/error"
           }
         }
-      }
-    },
-    "/user/unsubscribe": {
-      "post": {
+      },
+      "delete": {
         "tags": [
-          "User"
+          "Subscription"
         ],
-        "summary": "Unsubscribe user from tariff whenever he deletes a namespace or volume.",
-        "operationId": "UnsubscribeTariff",
+        "summary": "Unsubscribe user from every tariff",
+        "operationId": "MassiveUnsubscribeTariff",
         "parameters": [
           {
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UnsubscribeTariffRequest"
+              "$ref": "#/definitions/MassiveUnsubscribeTariffRequest"
             }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successfully unsubscribed"
+          },
+          "default": {
+            "$ref": "#/responses/error"
+          }
+        }
+      }
+    },
+    "isp/subscription/{resource_id}": {
+      "put": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Change tariff in subscription",
+        "operationId": "ChangeTariffRequest",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "uuid",
+            "name": "resource_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChangeTariffRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successfully changed"
+          },
+          "default": {
+            "$ref": "#/responses/error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Unsubscribe user from tariff",
+        "operationId": "UnsubscribeTariff",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "uuid",
+            "name": "resource_id",
+            "in": "path",
+            "required": true
           }
         ],
         "responses": {
@@ -236,6 +292,31 @@
         "tariff_id": {
           "type": "string",
           "x-go-name": "TariffID"
+        }
+      },
+      "x-go-package": "github.com/containerum/bill-external/models"
+    },
+    "ChangeTariffRequest": {
+      "description": "ChangeTariffRequest contains parameters needed for tariff changing in subscription",
+      "type": "object",
+      "properties": {
+        "tariff_id": {
+          "type": "string",
+          "x-go-name": "TariffID"
+        }
+      },
+      "x-go-package": "github.com/containerum/bill-external/models"
+    },
+    "MassiveUnsubscribeTariffRequest": {
+      "description": "MassiveUnsubscribeTariffRequest contains parameters needed for all tariffs unsubscribingg",
+      "type": "object",
+      "properties": {
+        "resources": {
+          "type": "array",
+          "x-go-name": "Resources",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "x-go-package": "github.com/containerum/bill-external/models"

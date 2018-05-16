@@ -21,12 +21,12 @@ responses:
     schema:
       $ref: 'vendor/github.com/containerum/cherry/swagger.json#/definitions/Err'
 paths:
-  /user/subscribe:
+  /isp/subscription:
     post:
       summary: Subscribe user to tariff whenever he adds a namespace or volume.
       operationId: SubscribeTariff
       tags:
-        - User
+        - Subscription
       parameters:
         - name: body
           in: body
@@ -38,18 +38,55 @@ paths:
           description: successfully subscribed
         default:
           $ref: '#/responses/error'
-  /user/unsubscribe:
-    post:
-      summary: Unsubscribe user from tariff whenever he deletes a namespace or volume.
-      operationId: UnsubscribeTariff
+    delete:
+      summary: Unsubscribe user from every tariff.
+      operationId: MassiveUnsubscribeTariff
       tags:
-        - User
+        - Subscription
       parameters:
         - name: body
           in: body
           required: true
           schema:
-            $ref: '#/definitions/UnsubscribeTariffRequest'
+            $ref: '#/definitions/MassiveUnsubscribeTariffRequest'
+      responses:
+        '202':
+          description: successfully unsubscribed
+        default:
+          $ref: '#/responses/error'
+  /isp/subscription/{resource_id}:
+    put:
+      summary: Change tariff in subscription
+      operationId: ChangeTariffRequest
+      tags:
+        - Subscription
+      parameters:
+        - name: resource_id
+          in: path
+          type: string
+          required: true
+          description: uuid
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ChangeTariffRequest'
+      responses:
+        '202':
+          description: successfully changed
+        default:
+          $ref: '#/responses/error'
+    delete:
+      summary: Unsubscribe user from tariff
+      operationId: UnsubscribeTariff
+      tags:
+        - Subscription
+      parameters:
+        - name: resource_id
+          in: path
+          type: string
+          required: true
+          description: uuid
       responses:
         '202':
           description: successfully unsubscribed
