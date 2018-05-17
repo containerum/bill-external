@@ -182,6 +182,40 @@
           }
         }
       }
+    },
+    "/resources/{resource_id}": {
+      "put": {
+        "tags": [
+          "Subscription"
+        ],
+        "summary": "Rename resource",
+        "operationId": "RenameRequest",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "uuid",
+            "name": "resource_id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RenameRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "successfully changed"
+          },
+          "default": {
+            "$ref": "#/responses/error"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -328,6 +362,17 @@
         "resource_id": {
           "type": "string",
           "x-go-name": "ResourceID"
+        }
+      },
+      "x-go-package": "github.com/containerum/bill-external/models"
+    },
+    "RenameRequest": {
+      "description": "RenameRequest contains parameters needed for resource renaming",
+      "type": "object",
+      "properties": {
+        "resource_label": {
+          "type": "string",
+          "x-go-name": "ResourceLabel"
         }
       },
       "x-go-package": "github.com/containerum/bill-external/models"

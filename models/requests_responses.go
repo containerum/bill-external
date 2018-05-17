@@ -24,3 +24,9 @@ type MassiveUnsubscribeTariffRequest struct {
 	Resources []string `json:"resources"`
 }
 
+// RenameRequest contains parameters needed for resource renaming
+//
+// swagger:model
+type RenameRequest struct {
+	ResourceLabel      string       `json:"resource_label"`
+}
