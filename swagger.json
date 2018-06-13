@@ -21,7 +21,7 @@
           "Tariffs"
         ],
         "summary": "Get namespace tariff by ID.",
-        "operationId": "GetNamespaceTariff",
+        "operationId": "GetNamespaceTariffs",
         "parameters": [
           {
             "type": "string",
@@ -33,7 +33,7 @@
         ],
         "responses": {
           "200": {
-            "description": "namespace tariff",
+            "description": "namespace tariffs",
             "schema": {
               "$ref": "#/definitions/NamespaceTariff"
             }
@@ -50,7 +50,7 @@
           "Tariffs"
         ],
         "summary": "Get volume tariff by ID.",
-        "operationId": "GetVolumeTariff",
+        "operationId": "GetVolumeTariffs",
         "parameters": [
           {
             "type": "string",
@@ -62,9 +62,38 @@
         ],
         "responses": {
           "200": {
-            "description": "volume tariff",
+            "description": "volume tariffs",
             "schema": {
               "$ref": "#/definitions/VolumeTariff"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/error"
+          }
+        }
+      }
+    },
+    "/namespaces/{namespace_id}": {
+      "get": {
+        "tags": [
+          "Tariffs"
+        ],
+        "summary": "Get namespace tariff by namespace ID.",
+        "operationId": "GetNamespaceTariff",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "uuid",
+            "name": "namespace_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "namespace tariff",
+            "schema": {
+              "$ref": "#/definitions/NamespaceTariff"
             }
           },
           "default": {
